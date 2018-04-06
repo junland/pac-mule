@@ -17,12 +17,12 @@ go:
 
 before_install:
   - sudo apt-get update -qqy
-  - sudo apt-get install -qqy upx tar golang-go dh-make devscripts dh-golang build-essential fakeroot subversion git tree
+  - sudo apt-get install -qqy upx tar golang-go dh-make devscripts dh-golang build-essential fakeroot subversion git
 
 script:
   - go test ./... -race -args start -v
 
-before_deploy: 
+before_deploy:
   - sudo make clean
   - go get -u github.com/Debian/dh-make-golang
   - svn checkout https://github.com/junland/repo-packaging/trunk/pac-mule/debian
@@ -31,15 +31,16 @@ before_deploy:
   - DEB_ARCH=amd64 make -f ./Makefile.pkgs deb
   - DEB_ARCH=armhf make -f ./Makefile.pkgs deb
   - sudo tar czf ./pac-mule-debs-$TRAVIS_TAG.tar.gz ../pac-mule-debs
+
 deploy:
-  - provider: releases
-    api_key:
-        secure: N/88ROfN7HKmR9+duiluJw2uDRqlAZDi/Uaq6sgKOZGXryMJrP8MqP1iughIfGsSRTTT+i3o+M/njl5fsBdqqN2/NomhmTqskE1libBQDL9SaZ9RBdYHOb3gm91n4MdvnVhVT8OJLXwJOXqlM/WmAs2Yuf0YctUDxKv6aDewCqKUiOCB4ekPJFV1r2ArX3O4cn8DoySxq4tuhQJdlIHiQrNnnMCN+5pv+LyklNHMWOqvZXcxjqjp7G3C8f1SKv22ebl5eIXzUrNA2VZcBrWtv967S6TFt3HWk+zrHJgo2iZCkSvLBbvCFQJS0ZGq8gEsPGQzjM1fQgGKh8cOyyCh1cF5jCnUkophyi+LoxmciCYVxmNcr8xdsiHPjkc4VfMDLv6aLaBqOiXY7ewyPlzlg7ZcJ+kFt8gm4gqsYlqYcEHc1qhAzBFxQE4XXuhFvnRN/K7fKX3jvcFAtnJs8shoXT8QXfQeGcZoWvASQgfcMM0TDzrhVU3I7UObQOFnc9WuVu/rAXJ+JbFEyuJjc9Fy+bA1GevAl1qiqjdo/JAAsIw1IQj+PH9mZjrUFSSxMMab0rWnPez6Zf0+fPenoYbzW6vbE4gZP/P2PLS2tzHofXV2oTCuNxXiLcwLw2Z0G8nJJkQbm8i47lJxvwt4BdrRkSbKOenJXEgf3+bI7s0Q4yg=
-    file_glob: true
-    file: ./pac-mule-debs-*.tar.gz
-    skip_cleanup: true
-    on:
-      branch: master
-      go: "1.10.1"
-      tags: true
-repo: junland/pac-mule
+  provider: releases
+  api_key:
+    secure:     llTfOhB9+wlU0Y/AEVitdzQgFM07svqrcNqZA7xc/LPZd5LOl8GHrVTNICPpJe0fcTmKOKP9Ck6DsYm0QS9xV0DffMJM5EnCCJpP+vE83Lx7giTjnxCBbqsNhKuSJOJ6zbDwOlJRGMp3TRjAWw3myhXD5DVBGT5VG0lsXEoteShIVgGnonuT6qof09CFeoOAeLnEvbyS7oQkzg8BdnWQPdPO8I5PYKi+bbT85A6qKx5h9pRF2/XLHaqgVsTR56nO2og65Bj5J7+Oz0FUQVPUcMKVbu67noKys1+QqbmPp4kJRtrRiV1JD3gGthrZBtqCQ9lySQxSYaiAWsqWHOowg0qTtrlHmrmUoNnFLvtg94fFSvvUy8UEsvHilaoWM/2wTp1KyeHvUicVWCj2LAbUX58HLCXpkHyjMuqlf4xnxFNJCKLkhwWwTyQdlyXEB+EtjpKN/Slk7VX1Xfv/1lTaS2FFHPJbTdbGhqs1qzwcDjx4ezf6wNTKwevYS8ogbb1IYXvwnJCcjHEGdIyK9L5p69aV+ShQP18fdiMAXXqve54Q7wO072FPPpcwqmbIc8VDK8XqQ0KdvvS0IabY36Zh8OD8uBJLSMHaWsPylCL7gkIjfL8kYoCChmEdPDqlz65g/BdtR2q9mzWJ+ChOcYJNwTBlBORaIVdNeVjYoiur6to=
+  file_glob:    true
+  file:         ./pac-mule-debs-*.tar.gz
+  skip_cleanup: true
+  on:
+    branch:     master
+    go:         "1.10.1"
+    tags:       true
+    repo:       junland/pac-mule
