@@ -29,6 +29,17 @@ binary:
 
 binary-upx:
 	rm -rf ./pac-*
-	@echo "Building binary for commit $(GIT_COMMIT)"
+	@echo "Building compressed binary for commit $(GIT_COMMIT)"
 	go build -ldflags="-X main.BinVersion=$(VERSION) -s -w" -o pac-mule
+	upx -9 -q ./pak-mule
+
+binary-debug:
+	rm -rf ./pac-*
+	@echo "Building debug binary for commit $(GIT_COMMIT)"
+	go build -ldflags="-X main.BinVersion=$(VERSION)" -o pac-mule
+
+binary-upx-debug:
+	rm -rf ./pac-*
+	@echo "Building compressed debug binary for commit $(GIT_COMMIT)"
+	go build -ldflags="-X main.BinVersion=$(VERSION)" -o pac-mule
 	upx -9 -q ./pak-mule
