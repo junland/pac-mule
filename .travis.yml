@@ -1,0 +1,45 @@
+# Env Options
+sudo: required
+dist: trusty
+
+env:
+  global:
+    - PROJECT=pac-mule
+    - DEB_DISTRO='stretch buster sid artful xenial'
+
+# Language Options
+language: go
+
+go:
+  - 1.9.4
+  - "1.10"
+  - "1.10.1"
+
+before_install:
+  - sudo apt-get update -qqy
+  - sudo apt-get install -qqy upx tar golang-go dh-make devscripts dh-golang build-essential fakeroot subversion git tree
+
+script:
+  - go test ./... -race -args start -v
+
+before_deploy: 
+  - sudo make clean
+  - go get -u github.com/Debian/dh-make-golang
+  - svn checkout https://github.com/junland/repo-packaging/trunk/pac-mule/debian
+  - wget -O Makefile.pkgs https://raw.githubusercontent.com/junland/repo-packaging/master/Makefile
+  - sed "s/DEB_DISTRO?=unstable/DEB_DISTRO?=$DEB_DISTRO/g" Makefile.pkgs
+  - DEB_ARCH=amd64 make -f ./Makefile.pkgs deb
+  - DEB_ARCH=armhf make -f ./Makefile.pkgs deb
+  - sudo tar czf ./pac-mule-debs-$TRAVIS_TAG.tar.gz ../pac-mule-debs
+deploy:
+  - provider: releases
+    api_key:
+        secure: N/88ROfN7HKmR9+duiluJw2uDRqlAZDi/Uaq6sgKOZGXryMJrP8MqP1iughIfGsSRTTT+i3o+M/njl5fsBdqqN2/NomhmTqskE1libBQDL9SaZ9RBdYHOb3gm91n4MdvnVhVT8OJLXwJOXqlM/WmAs2Yuf0YctUDxKv6aDewCqKUiOCB4ekPJFV1r2ArX3O4cn8DoySxq4tuhQJdlIHiQrNnnMCN+5pv+LyklNHMWOqvZXcxjqjp7G3C8f1SKv22ebl5eIXzUrNA2VZcBrWtv967S6TFt3HWk+zrHJgo2iZCkSvLBbvCFQJS0ZGq8gEsPGQzjM1fQgGKh8cOyyCh1cF5jCnUkophyi+LoxmciCYVxmNcr8xdsiHPjkc4VfMDLv6aLaBqOiXY7ewyPlzlg7ZcJ+kFt8gm4gqsYlqYcEHc1qhAzBFxQE4XXuhFvnRN/K7fKX3jvcFAtnJs8shoXT8QXfQeGcZoWvASQgfcMM0TDzrhVU3I7UObQOFnc9WuVu/rAXJ+JbFEyuJjc9Fy+bA1GevAl1qiqjdo/JAAsIw1IQj+PH9mZjrUFSSxMMab0rWnPez6Zf0+fPenoYbzW6vbE4gZP/P2PLS2tzHofXV2oTCuNxXiLcwLw2Z0G8nJJkQbm8i47lJxvwt4BdrRkSbKOenJXEgf3+bI7s0Q4yg=
+    file_glob: true
+    file: ./pac-mule-debs-*.tar.gz
+    skip_cleanup: true
+    on:
+      branch: master
+      go: "1.10.1"
+      tags: true
+repo: junland/pac-mule
