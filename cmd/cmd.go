@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"flag"
@@ -9,7 +9,13 @@ import (
 
 var BinVersion string
 
-func cmdExec() {
+const (
+	defLvl  = "info"
+	defPort = "8080"
+	defConf = "/etc/pac-mule/pac.js"
+)
+
+func Run() {
 	flag.Usage = func() {
 		fmt.Printf("Usage of pac-mule:\n")
 		fmt.Printf("Commands:\n")
