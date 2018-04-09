@@ -3,19 +3,32 @@ package server
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/junland/pac-mule/utils"
 )
 
-func StartServer() {
+const (
+	defLvl  = "info"
+	defPort = "8080"
+	defConf = "/etc/pac-mule/pac.js"
+)
+
+type PACFile struct {
+    content string
+}
+
+func Start() {
 
   // Get log level enviroment variable.
-  envLvl, err := log.ParseLevel(GetEnv("MULE_LOG_LVL", defLvl))
+  envLvl, err := log.ParseLevel(utils.GetEnv("MULE_LOG_LVL", defLvl))
   if err != nil {
-    fmt.Println("Invalid log level ", GetEnv("MULE_LOG_LVL", defLvl))
+    fmt.Println("Invalid log level ", utils.GetEnv("MULE_LOG_LVL", defLvl))
     os.Exit(3)
   }
 
@@ -25,22 +38,28 @@ func StartServer() {
 
 	log.Info("Setting up server...")
 
-	envPort := GetEnv("MULE_SRV_PORT", defPort)
-
-	log.Info("Checking PAC file...")
+	envPort := utils.GetEnv("MULE_SRV_PORT", defPort)
 
 	// Checks if the PAK file exists
-	if _, err := os.Stat(GetEnv("MULE_PAC_FILE", defConf)); os.IsNotExist(err) {
-		log.Fatal("PAC file does not exist at " + GetEnv("MULE_PAC_FILE", defConf))
+	if _, err := os.Stat(utils.GetEnv("MULE_PAC_FILE", defConf)); os.IsNotExist(err) {
+		log.Fatal("PAC file does not exist at " + utils.GetEnv("MULE_PAC_FILE", defConf))
 	}
 
-	log.Info("PAC file is OK...")
+	log.Info("PAC file exists...")
+
+	log.Info("Loading PAC file...")
+	b, err := ioutil.ReadFile(defConf)
+	if err != nil {
+        fmt.Print(err)
+  }
+
+	content := string(b)
 
 	log.Info("Setting route info...")
 
 	// Configures router and routes.
 	router := http.DefaultServeMux
-	router.HandleFunc("/config", giveConfig)
+	router.HandleFunc("/config", PACFile{content}.giveConfig)
 
 	srv := &http.Server{Addr: ":" + envPort, Handler: router}
 
@@ -50,7 +69,7 @@ func StartServer() {
 		}
 	}()
 
-	p := NewPID("/var/run/pac-mule.pid")
+	p := utils.NewPID("/var/run/pac-mule.pid")
 
 	// Sets gracefull shutdown
 	stopChan := make(chan os.Signal)

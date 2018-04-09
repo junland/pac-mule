@@ -4,16 +4,11 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"syscall"
+
+	"github.com/junland/pac-mule/server"
 )
 
 var BinVersion string
-
-const (
-	defLvl  = "info"
-	defPort = "8080"
-	defConf = "/etc/pac-mule/pac.js"
-)
 
 func Run() {
 	flag.Usage = func() {
@@ -36,15 +31,7 @@ func Run() {
 
 	switch os.Args[1] {
 	case "start":
-		return
-	case "stop":
-		pid, err := ReadPID("/var/run/pac-mule.pid")
-		if err != nil {
-			fmt.Print(err)
-			os.Exit(1)
-		}
-		syscall.Kill(pid, syscall.SIGINT)
-		os.Exit(0)
+		server.Start()
 	case "version":
 		fmt.Printf("Made with love.\n")
 		fmt.Printf("Version: %s\n", BinVersion)
