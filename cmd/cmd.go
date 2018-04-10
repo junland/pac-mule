@@ -15,7 +15,6 @@ func Run() {
 		fmt.Printf("Usage of pac-mule:\n")
 		fmt.Printf("Commands:\n")
 		fmt.Printf("    start     Starts the server.\n")
-		fmt.Printf("    stop      Stops the current running server instance.\n")
 		fmt.Printf("    version   Shows the version information.\n")
 		fmt.Printf("\n")
 		fmt.Printf("Options:\n")

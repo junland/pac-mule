@@ -17,6 +17,7 @@ const (
 	defLvl  = "info"
 	defPort = "8080"
 	defConf = "/etc/pac-mule/pac.js"
+	defPID = "/var/run/pac-mule.pid"
 )
 
 type PACFile struct {
@@ -33,19 +34,25 @@ func Start() {
   }
 
   // Setup logging with Logrus.
-  log.SetOutput(os.Stdout)
   log.SetLevel(envLvl)
 
 	log.Info("Setting up server...")
 
 	envPort := utils.GetEnv("MULE_SRV_PORT", defPort)
 
-	// Checks if the PAK file exists
-	if _, err := os.Stat(utils.GetEnv("MULE_PAC_FILE", defConf)); os.IsNotExist(err) {
-		log.Fatal("PAC file does not exist at " + utils.GetEnv("MULE_PAC_FILE", defConf))
+	// Get and check PAC file.
+	stat, err := os.Stat(utils.GetEnv("MULE_PAC_FILE", defConf))
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(3)
 	}
 
-	log.Info("PAC file exists...")
+	if stat.Size() > int64(1048576) {
+		log.Fatal("PAC file is bigger than 1 MiB")
+		os.Exit(3)
+	}
+
+	log.Info("PAC file is OK...")
 
 	log.Info("Loading PAC file...")
 	b, err := ioutil.ReadFile(defConf)
@@ -55,7 +62,7 @@ func Start() {
 
 	content := string(b)
 
-	log.Info("Setting route info...")
+	log.Debug("Setting route info...")
 
 	// Configures router and routes.
 	router := http.DefaultServeMux
@@ -65,11 +72,11 @@ func Start() {
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
-			log.Error("Listen: %s\n", err)
+			log.Error("ListenAndServe: %s\n", err)
 		}
 	}()
 
-	p := utils.NewPID("/var/run/pac-mule.pid")
+	p := utils.NewPID(defPID)
 
 	// Sets gracefull shutdown
 	stopChan := make(chan os.Signal)
@@ -83,6 +90,6 @@ func Start() {
 	defer p.RemovePID()
 
 	// shut down gracefully, but wait no longer than 5 seconds before halting
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second)
 	srv.Shutdown(ctx)
 }

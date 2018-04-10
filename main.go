@@ -4,7 +4,6 @@ import (
 	"github.com/junland/pac-mule/cmd"
 )
 
-
 func main() {
 	cmd.Run()
 }
