@@ -25,20 +25,20 @@ type PACFile struct {
 }
 
 func Start() {
-
   // Get log level enviroment variable.
   envLvl, err := log.ParseLevel(utils.GetEnv("MULE_LOG_LVL", defLvl))
   if err != nil {
     fmt.Println("Invalid log level ", utils.GetEnv("MULE_LOG_LVL", defLvl))
     os.Exit(3)
+  } else {
+		// Setup logging with Logrus.
+		log.SetLevel(envLvl)
   }
-
-  // Setup logging with Logrus.
-  log.SetLevel(envLvl)
 
 	log.Info("Setting up server...")
 
 	envPort := utils.GetEnv("MULE_SRV_PORT", defPort)
+	envPID := utils.GetEnv("MULE_PID_FILE", defPID)
 
 	// Get and check PAC file.
 	stat, err := os.Stat(utils.GetEnv("MULE_PAC_FILE", defConf))
@@ -54,8 +54,8 @@ func Start() {
 
 	log.Info("PAC file is OK...")
 
-	log.Info("Loading PAC file...")
-	b, err := ioutil.ReadFile(defConf)
+	log.Info("Loading PAC file into memory...")
+	b, err := ioutil.ReadFile(utils.GetEnv("MULE_PAC_FILE", defConf))
 	if err != nil {
         fmt.Print(err)
   }
@@ -71,12 +71,14 @@ func Start() {
 	srv := &http.Server{Addr: ":" + envPort, Handler: router}
 
 	go func() {
-		if err := srv.ListenAndServe(); err != nil {
-			log.Error("ListenAndServe: %s\n", err)
+		err := srv.ListenAndServe()
+		log.Info("Start server on port ", envPort)
+		if err != nil {
+			log.Fatal("ListenAndServe: ", err)
 		}
 	}()
 
-	p := utils.NewPID(defPID)
+	p := utils.NewPID(envPID)
 
 	// Sets gracefull shutdown
 	stopChan := make(chan os.Signal)
