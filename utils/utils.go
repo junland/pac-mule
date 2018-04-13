@@ -51,6 +51,7 @@ func ReadPID(fileName string) (int, error) {
 	return pid, nil
 }
 
+// Get's a specified enviroment variable. Will default if value is not present.
 func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
