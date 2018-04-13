@@ -1,20 +1,20 @@
-package main
+package cmd
 
 import (
 	"flag"
 	"fmt"
 	"os"
-	"syscall"
+
+	"github.com/junland/pac-mule/server"
 )
 
 var BinVersion string
 
-func cmdExec() {
+func Run() {
 	flag.Usage = func() {
 		fmt.Printf("Usage of pac-mule:\n")
 		fmt.Printf("Commands:\n")
 		fmt.Printf("    start     Starts the server.\n")
-		fmt.Printf("    stop      Stops the current running server instance.\n")
 		fmt.Printf("    version   Shows the version information.\n")
 		fmt.Printf("\n")
 		fmt.Printf("Options:\n")
@@ -30,15 +30,7 @@ func cmdExec() {
 
 	switch os.Args[1] {
 	case "start":
-		return
-	case "stop":
-		pid, err := ReadPID("/var/run/pac-mule.pid")
-		if err != nil {
-			fmt.Print(err)
-			os.Exit(1)
-		}
-		syscall.Kill(pid, syscall.SIGINT)
-		os.Exit(0)
+		server.Start()
 	case "version":
 		fmt.Printf("Made with love.\n")
 		fmt.Printf("Version: %s\n", BinVersion)

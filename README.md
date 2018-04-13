@@ -21,17 +21,6 @@ Simple server written in Go that issues a proxy auto configuration file to clien
 
 6. Go to your browser and type in `http://localhost:8080/config` to get your proxy config!
 
-## CLI Usage
-
-To start:
-`pac-mule start`
-
-To stop a currently running `pac-mule` process:
-`pac-mule stop`
-
-Version Info:
-`pac-mule version`
-
 ## Environment Variables
 
 `MULE_LOG_LEVEL`  - Specifies log level in STDOUT. (Default: `INFO`)
@@ -40,9 +29,15 @@ Version Info:
 
 `MULE_PAC_FILE` - Specifies location of PAC (Proxy Auto Config) file. (Default: `/etc/pac-mule/pac.js`)
 
+`MULE_TLS` - Specifies if server should be a TLS server (Default: `false`)
+
+`MULE_CERT` - Specifies location of TLS certificate. (No default.)
+
+`MULE_KEY` - Specifies location of TLS key. (No default.)
+
 ## Built With
 
-* [sirupsen/logrus](https://github.com/sirupsen/logrus) - Structured, pluggable logging for Go. 
+* [sirupsen/logrus](https://github.com/sirupsen/logrus) - Structured, pluggable logging for Go.
 
 ## Versioning
 

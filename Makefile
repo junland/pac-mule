@@ -20,26 +20,26 @@ tls-certs:
 	@echo "  # Do not use these CERTs for production. #  "
 	@echo "  ##########################################  "
 	@echo "Making Development TLS Certificates..."
-	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem -subj "/C=US/ST=Texas/L=Austin/O=Local Development/OU=IT Department/CN=127.0.0.0"
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key.pem -out cert.pem -subj "/C=US/ST=Texas/L=Austin/O=Local Development/OU=IT Department/CN=127.0.0.1"
 
 binary:
 	rm -rf ./pac-*
 	@echo "Building binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X main.BinVersion=$(VERSION) -s -w" -o pac-mule
+	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o pac-mule
 
 binary-upx:
 	rm -rf ./pac-*
 	@echo "Building compressed binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X main.BinVersion=$(VERSION) -s -w" -o pac-mule
+	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o pac-mule
 	upx -9 -q ./pak-mule
 
 binary-debug:
 	rm -rf ./pac-*
 	@echo "Building debug binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X main.BinVersion=$(VERSION)" -o pac-mule
+	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION)" -o pac-mule
 
 binary-upx-debug:
 	rm -rf ./pac-*
 	@echo "Building compressed debug binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X main.BinVersion=$(VERSION)" -o pac-mule
+	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION)" -o pac-mule
 	upx -9 -q ./pak-mule
