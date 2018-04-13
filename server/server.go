@@ -18,12 +18,14 @@ const (
 	defPort = "8080"
 	defConf = "/etc/pac-mule/pac.js"
 	defPID = "/var/run/pac-mule.pid"
+	defTLS = "false"
 )
 
 type PACFile struct {
     content string
 }
 
+// Sets up and starts the main server application
 func Start() {
   // Get log level enviroment variable.
   envLvl, err := log.ParseLevel(utils.GetEnv("MULE_LOG_LVL", defLvl))
@@ -34,6 +36,16 @@ func Start() {
 		// Setup logging with Logrus.
 		log.SetLevel(envLvl)
   }
+
+  envCert := utils.GetEnv("MULE_CERT", "")
+	envKey := utils.GetEnv("MULE_KEY", "")
+	envTLS := utils.GetEnv("MULE_TLS", defTLS)
+
+	if envTLS == "true" {
+		if envCert == "" || envKey == "" {
+			log.Fatal("Invalid TLS configuration, please pass a file path for both MULE_KEY and MULE_CERT")
+		}
+	}
 
 	log.Info("Setting up server...")
 
@@ -47,6 +59,7 @@ func Start() {
 		os.Exit(3)
 	}
 
+	// This can be adjusted, however just defaulted to 1MiB for the file.
 	if stat.Size() > int64(1048576) {
 		log.Fatal("PAC file is bigger than 1 MiB")
 		os.Exit(3)
@@ -54,7 +67,6 @@ func Start() {
 
 	log.Info("PAC file is OK...")
 
-	log.Info("Loading PAC file into memory...")
 	b, err := ioutil.ReadFile(utils.GetEnv("MULE_PAC_FILE", defConf))
 	if err != nil {
         fmt.Print(err)
@@ -70,17 +82,25 @@ func Start() {
 
 	srv := &http.Server{Addr: ":" + envPort, Handler: router}
 
+  log.Debug("Starting server on port ", envPort)
+
 	go func() {
+		if defTLS == "true" {
+			err := srv.ListenAndServeTLS(envCert, envKey)
+			if err != nil {
+				log.Fatal("ListenAndServeTLS: ", err)
+			}
+		}
 		err := srv.ListenAndServe()
-		log.Info("Start server on port ", envPort)
 		if err != nil {
 			log.Fatal("ListenAndServe: ", err)
 		}
 	}()
 
+	log.Info("Serving on port " + envPort +", press CTRL + C to shutdown.")
+
 	p := utils.NewPID(envPID)
 
-	// Sets gracefull shutdown
 	stopChan := make(chan os.Signal)
 
 	signal.Notify(stopChan, os.Interrupt)
@@ -91,7 +111,7 @@ func Start() {
 
 	defer p.RemovePID()
 
-	// shut down gracefully, but wait no longer than 5 seconds before halting
-	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second)
+	ctx, _ := context.WithTimeout(context.Background(), 5 * time.Second) // shut down gracefully, but wait no longer than 5 seconds before halting
+
 	srv.Shutdown(ctx)
 }
