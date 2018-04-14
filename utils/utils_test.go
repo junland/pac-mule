@@ -1,11 +1,10 @@
 package utils
 
 import (
-        "testing"
+	"testing"
 )
 
-
 func TestCreateAndRemovePIDFile(t *testing.T) {
-        file := NewPID("./testpid.pid")
-        file.RemovePID()
+	file := NewPID("./testpid.pid")
+	file.RemovePID()
 }

@@ -9,7 +9,7 @@ Simple server written in Go that issues a proxy auto configuration file to clien
 
 ## Installing from Source
 
-1. `git clone https://github.com/junland/pak-mule.git`
+1. `git clone https://github.com/junland/pac-mule.git`
 
 2. `cd pac-mule`
 
