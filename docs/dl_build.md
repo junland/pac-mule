@@ -4,7 +4,7 @@
 
 Running pac-mule can run on almost all hardware (amd64, armhf, aarch64 etc.), however pac-mule has been written with Linux / Unix in mind so the only supported operating system would be Linux / Unix.
 
-## Download pre-build binary from releases
+## Download pre-built binary from releases
 
 You can grab a pre compiled binary in the [releases](https://github.com/junland/pac-mule/releases) section of this repository which is is the fastest way to get this software.
 
