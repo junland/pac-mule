@@ -3,13 +3,17 @@
 
 Simple server written in Go that issues a proxy auto configuration file to clients.
 
-## Prerequisites
+## Getting the binary
 
-`go` - 1.8.x or higher
+### From source
+
+#### Prerequisites
+
+`go` - 1.8.x or higher, with `GOPATH` set up.
 
 `upx` - For binary compression if your going to use the `Makefile` (Optional)
 
-## Installing from Source
+Once your prerequisites have been installed follow these steps:
 
 1. `git clone https://github.com/junland/pac-mule.git`
 
@@ -17,11 +21,11 @@ Simple server written in Go that issues a proxy auto configuration file to clien
 
 3. `make binary`
 
-4. `mkdir /etc/pac-mule && touch /etc/pac-mule/pac.js` (Edit the `pac.js` file with your proxy config.)
+These steps should produce a binary called `pac-mule` which you can execute from your current shell.
 
-5. `sudo ./pac-mule start`
+### From releases
 
-6. Go to your browser and type in `http://localhost:8080/config` to get your proxy config!
+Alternatively you can grab a pre compiled binary in the [releases](https://github.com/junland/pac-mule/releases) section of this repository
 
 ## Environment Variables
 
@@ -31,11 +35,29 @@ Simple server written in Go that issues a proxy auto configuration file to clien
 
 `MULE_PAC_FILE` - Specifies location of PAC (Proxy Auto Config) file. (Default: `/etc/pac-mule/pac.js`)
 
-`MULE_TLS` - Specifies if server should be a TLS server (Default: `false`)
+`MULE_TLS` - Specifies if server should be a TLS server using `true` or `false` (Default: `false`)
 
 `MULE_CERT` - Specifies location of TLS certificate. (No default.)
 
 `MULE_KEY` - Specifies location of TLS key. (No default.)
+
+## Running pac-mule
+
+To start a basic instance of pac-mule you can fill in the needed paramters and run this command:
+
+```
+MULE_PAC_FILE=<PAC FILE> ./pac-mule start
+```
+
+Now clients can get the config from `http://localhost:8080/config`
+
+You can also launch a more secure instance of pac-mule by generating a SSL certificate and key. Doing this you can run this command:
+
+```
+MULE_PAC_FILE=<PAC FILE> MULE_TLS=true MULE_PORT=443 MULE_CERT=<SSL CERT FILE> MULE_KEY=<SSL KEY FILE> ./pac-mule start
+```
+
+Now clients can get the config from `https://localhost/config`
 
 ## Built With
 
