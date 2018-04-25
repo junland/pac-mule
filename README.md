@@ -1,4 +1,6 @@
-# pac-mule
+# pac-mule 
+[![Build Status](https://travis-ci.org/junland/pac-mule.svg?branch=master)](https://travis-ci.org/junland/pac-mule)
+
 Simple server written in Go that issues a proxy auto configuration file to clients.
 
 ## Prerequisites
