@@ -14,5 +14,5 @@ _Coming Soon_
 - [Running pac-mule][running]
 
 [usage]: usage.md
-[running]: docs/running.md
-[download_build]: docs/dl_build.md
+[running]: running.md
+[download_build]: dl_build.md
