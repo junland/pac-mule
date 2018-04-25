@@ -3,43 +3,11 @@
 
 Simple server written in Go that issues a proxy auto configuration file to clients.
 
-## Getting the binary
+## Getting pac-mule
 
-### From source
+The easist way to get pac-mule is to grab a pre-compiled binary in the [releases](https://github.com/junland/pac-mule/releases) section of this repository
 
-#### Prerequisites
-
-`go` - 1.8.x or higher, with `GOPATH` set up.
-
-`upx` - For binary compression if your going to use the `Makefile` (Optional)
-
-Once your prerequisites have been installed follow these steps:
-
-1. `git clone https://github.com/junland/pac-mule.git`
-
-2. `cd pac-mule`
-
-3. `make binary`
-
-These steps should produce a binary called `pac-mule` which you can execute from your current shell.
-
-### From releases
-
-Alternatively you can grab a pre compiled binary in the [releases](https://github.com/junland/pac-mule/releases) section of this repository
-
-## Environment Variables
-
-`MULE_LOG_LEVEL`  - Specifies log level in STDOUT. (Default: `INFO`)
-
-`MULE_SRV_PORT` - Specifies server port number. (Default: `8080`)
-
-`MULE_PAC_FILE` - Specifies location of PAC (Proxy Auto Config) file. (Default: `/etc/pac-mule/pac.js`)
-
-`MULE_TLS` - Specifies if server should be a TLS server using `true` or `false` (Default: `false`)
-
-`MULE_CERT` - Specifies location of TLS certificate. (No default.)
-
-`MULE_KEY` - Specifies location of TLS key. (No default.)
+If you want build from source please follow [this][download_build] documentation. 
 
 ## Running pac-mule
 
@@ -75,4 +43,6 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the GPLv2 License - see the [LICENSE](LICENSE.md) file for details
+This project is licensed under the GPLv2 License - see the [LICENSE](LICENSE.md) file for details.
+
+[download_build]: docs/dl_build.md
