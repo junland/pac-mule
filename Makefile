@@ -45,13 +45,15 @@ binary-upx-debug: clean
 	upx -9 -q ./$(BIN_NAME)
 
 releases: clean
-	@echo "Building and packing $(VERSION) binaries for commit $(GIT_COMMIT)."
+	@echo "##########################################################################"
+	@echo "Building and packing version $(VERSION) binaries for commit $(GIT_COMMIT)."
+	@echo "##########################################################################"
 	$(MAKE) amd64-binary
-	tar cvf $(BIN_NAME)-v$(VERSION)-amd64.tar.gz $(BIN_NAME) README.md LICENSE
+	tar cvf $(BIN_NAME)-v$(VERSION)-amd64.tar.gz $(BIN_NAME) README.md LICENSE docs/
 	$(MAKE) aarch64-binary
-	tar cvf $(BIN_NAME)-v$(VERSION)-aarch64.tar.gz $(BIN_NAME) README.md LICENSE
+	tar cvf $(BIN_NAME)-v$(VERSION)-aarch64.tar.gz $(BIN_NAME) README.md LICENSE docs/
 	$(MAKE) armhf-binary
-	tar cvf $(BIN_NAME)-v$(VERSION)-armhf.tar.gz $(BIN_NAME) README.md LICENSE
+	tar cvf $(BIN_NAME)-v$(VERSION)-armhf.tar.gz $(BIN_NAME) README.md LICENSE docs/
 
 amd64-binary:
 	rm -f $(BIN_NAME)
