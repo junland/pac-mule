@@ -13,6 +13,6 @@ _Coming Soon_
 - [Binary Usage and Variables][usage]
 - [Running pac-mule][running]
 
-[usage]: docs/usage.md
+[usage]: usage.md
 [running]: docs/running.md
 [download_build]: docs/dl_build.md
