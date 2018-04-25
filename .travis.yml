@@ -19,7 +19,7 @@ before_install:
   - sudo apt-get install -qqy upx tar git
 
 script:
-  - go test ./... -race -args start -v
+  - go test ./utils -race -args start -v
 
 before_deploy:
   - sudo make clean
