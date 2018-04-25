@@ -1,7 +1,7 @@
 # pac-mule 
 [![Build Status](https://travis-ci.org/junland/pac-mule.svg?branch=master)](https://travis-ci.org/junland/pac-mule)
 
-Simple server written in Go that issues a proxy auto configuration file to clients.
+Simple server written in Go that issues a proxy auto configuration (or [PAC](https://en.wikipedia.org/wiki/Proxy_auto-config)) to clients.
 
 ## Getting pac-mule
 
@@ -27,6 +27,10 @@ MULE_PAC_FILE=<PAC FILE> MULE_TLS=true MULE_PORT=443 MULE_CERT=<SSL CERT FILE> M
 
 Now clients can get the config from `https://localhost/config`
 
+## Documentation
+
+If you would like to know more about this software, you can visit the repository documentation which is located [here][docs].
+
 ## Built With
 
 * [sirupsen/logrus](https://github.com/sirupsen/logrus) - Structured, pluggable logging for Go.
@@ -46,3 +50,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 This project is licensed under the GPLv2 License - see the [LICENSE](LICENSE.md) file for details.
 
 [download_build]: docs/dl_build.md
+[docs]: docs
