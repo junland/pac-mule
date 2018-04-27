@@ -8,8 +8,10 @@ import (
 	"github.com/junland/pac-mule/server"
 )
 
+// Specifies version of the software
 var BinVersion string
 
+// Starts the processing of CLI commands and flags.
 func Run() {
 	flag.Usage = func() {
 		fmt.Printf("Usage of pac-mule:\n")
