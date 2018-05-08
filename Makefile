@@ -12,6 +12,7 @@ clean:
 	rm -rf ./*.deb
 	rm -rf ./*.rpm
 	rm -rf ./*.pem
+	rm -rf ./obj-*
 	@echo "Done cleaning..."
 
 .PHONY: fmt
