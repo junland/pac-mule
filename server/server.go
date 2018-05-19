@@ -73,7 +73,7 @@ func Start() {
 
 	log.Debug("Setting route info...")
 
-	// Configures router and routes.
+	// Configure router and routes.
 	router := http.DefaultServeMux
 	router.HandleFunc("/config", PACFile{content}.giveConfig)
 

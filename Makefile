@@ -1,6 +1,7 @@
 PWD:=$(shell pwd)
 GOPATH:=$(shell go env GOPATH)
 GIT_COMMIT:=$(shell git rev-parse --verify HEAD --short=7)
+GO_VERSION:=$(shell go version | grep -o "go1\.[0-9|\.]*")
 VERSION?=0.0.0
 BIN_NAME=pac-mule
 
@@ -29,21 +30,7 @@ tls-certs: clean
 
 binary: clean
 	@echo "Building binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o $(BIN_NAME)
-
-binary-upx: clean
-	@echo "Building compressed binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o $(BIN_NAME)
-	upx -9 -q ./$(BIN_NAME)
-
-binary-debug: clean
-	@echo "Building debug binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION)" -o $(BIN_NAME)
-
-binary-upx-debug: clean
-	@echo "Building compressed debug binary for commit $(GIT_COMMIT)"
-	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION)" -o $(BIN_NAME)
-	upx -9 -q ./$(BIN_NAME)
+	go build -ldflags="-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -X github.com/junland/pac-mule/cmd.GoVersion=$(GO_VERSION)" -o $(BIN_NAME)
 
 releases: clean
 	@echo "##########################################################################"
@@ -58,12 +45,12 @@ releases: clean
 
 amd64-binary:
 	rm -f $(BIN_NAME)
-	GOARCH=amd64 go build -ldflags "-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o $(BIN_NAME)
+	GOARCH=amd64 go build -ldflags "-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -X github.com/junland/pac-mule/cmd.GoVersion=$(GO_VERSION)" -o $(BIN_NAME)
 
 aarch64-binary:
 	rm -f $(BIN_NAME)
-	GOARCH=arm64 go build -ldflags "-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o $(BIN_NAME)
+	GOARCH=arm64 go build -ldflags "-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -X github.com/junland/pac-mule/cmd.GoVersion=$(GO_VERSION)" -o $(BIN_NAME)
 
 armhf-binary:
 	rm -f $(BIN_NAME)
-	GOARCH=arm GOARM=7 go build -ldflags "-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -s -w" -o $(BIN_NAME)
+	GOARCH=arm GOARM=7 go build -ldflags "-X github.com/junland/pac-mule/cmd.BinVersion=$(VERSION) -X github.com/junland/pac-mule/cmd.GoVersion=$(GO_VERSION)" -o $(BIN_NAME)
