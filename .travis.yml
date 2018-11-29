@@ -20,8 +20,8 @@ go:
 
 before_install:
   - sudo echo "deb http://archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list
-  - sudo apt-get update -qqy
-  - sudo apt-get install -qqy upx tar git gccgo
+  - sudo apt-get update
+  - sudo apt-get install upx tar git gccgo
   - gccgo -v
 
 before_script:
