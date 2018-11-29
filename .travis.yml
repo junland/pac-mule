@@ -1,6 +1,6 @@
 # Env Options
 sudo: required
-dist: trusty
+dist: xenial
 
 env:
   global:
@@ -19,8 +19,13 @@ go:
   - tip
 
 before_install:
+  - sudo echo "deb http://archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list
   - sudo apt-get update -qqy
-  - sudo apt-get install -qqy upx tar git
+  - sudo apt-get install -qqy upx tar git gccgo
+  - gccgo -v
+
+before_script:
+ - go get -t ./...
 
 script:
   - go test ./utils -race -args start -v
