@@ -20,6 +20,7 @@ go:
 
 before_install:
   - sudo echo "deb http://archive.ubuntu.com/ubuntu/ bionic universe" >> /etc/apt/sources.list
+  - sudo echo "deb http://archive.ubuntu.com/ubuntu/ bionic main restricted" >> /etc/apt/sources.list
   - sudo apt-get update
   - sudo apt-get install upx tar git gccgo
   - gccgo -v
