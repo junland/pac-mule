@@ -1,39 +1,35 @@
-# pac-mule
-Simple server written in Go that issues a proxy auto configuration file to clients.
+# pac-mule 
+[![Build Status](https://travis-ci.org/junland/pac-mule.svg?branch=master)](https://travis-ci.org/junland/pac-mule)
 
-## Prerequisites
+Simple server written in Go that issues a proxy auto configuration (or [PAC](https://en.wikipedia.org/wiki/Proxy_auto-config)) to clients.
 
-`go` - 1.8.x or higher
+## Getting pac-mule
 
-`upx` - For binary compression if your going to use the `Makefile` (Optional)
+The easist way to get pac-mule is to grab a pre-compiled binary in the [releases](https://github.com/junland/pac-mule/releases) section of this repository
 
-## Installing from Source
+If you want build from source please follow [this][download_build] documentation. 
 
-1. `git clone https://github.com/junland/pak-mule.git`
+## Running pac-mule
 
-2. `cd pac-mule`
+To start a basic instance of pac-mule you can fill in the needed paramters and run this command:
 
-3. `make binary`
+```
+MULE_PAC_FILE=<PAC FILE> ./pac-mule start
+```
 
-4. `mkdir /etc/pac-mule && touch /etc/pac-mule/pac.js` (Edit the `pac.js` file with your proxy config.)
+Now clients can get the config from `http://localhost:8080/config`
 
-5. `sudo ./pac-mule start`
+You can also launch a more secure instance of pac-mule by generating a SSL certificate and key. Doing this you can run this command:
 
-6. Go to your browser and type in `http://localhost:8080/config` to get your proxy config!
+```
+MULE_PAC_FILE=<PAC FILE> MULE_TLS=true MULE_PORT=443 MULE_CERT=<SSL CERT FILE> MULE_KEY=<SSL KEY FILE> ./pac-mule start
+```
 
-## Environment Variables
+Now clients can get the config from `https://localhost/config`
 
-`MULE_LOG_LEVEL`  - Specifies log level in STDOUT. (Default: `INFO`)
+## Documentation
 
-`MULE_SRV_PORT` - Specifies server port number. (Default: `8080`)
-
-`MULE_PAC_FILE` - Specifies location of PAC (Proxy Auto Config) file. (Default: `/etc/pac-mule/pac.js`)
-
-`MULE_TLS` - Specifies if server should be a TLS server (Default: `false`)
-
-`MULE_CERT` - Specifies location of TLS certificate. (No default.)
-
-`MULE_KEY` - Specifies location of TLS key. (No default.)
+If you would like to know more about this software, you can visit the repository documentation which is located [here][docs].
 
 ## Built With
 
@@ -51,4 +47,7 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the GPLv2 License - see the [LICENSE](LICENSE.md) file for details
+This project is licensed under the GPLv2 License - see the [LICENSE](LICENSE.md) file for details.
+
+[download_build]: docs/dl_build.md
+[docs]: docs

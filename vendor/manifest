@@ -1,0 +1,84 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/konsorten/go-windows-terminal-sequences",
+			"repository": "https://github.com/konsorten/go-windows-terminal-sequences",
+			"vcs": "git",
+			"revision": "5c8c8bd35d3832f5d134ae1e1e375b69a4d25242",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/sirupsen/logrus",
+			"repository": "https://github.com/sirupsen/logrus",
+			"vcs": "git",
+			"revision": "29d7eb25e8ffa54207ff5a9a5c3d63e95be2cc39",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/stretchr/testify/assert",
+			"repository": "https://github.com/stretchr/testify",
+			"vcs": "git",
+			"revision": "8019298d9fa5a04fc2ad10ae03349df3483096a6",
+			"branch": "master",
+			"path": "assert",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/stretchr/testify/require",
+			"repository": "https://github.com/stretchr/testify",
+			"vcs": "git",
+			"revision": "8019298d9fa5a04fc2ad10ae03349df3483096a6",
+			"branch": "master",
+			"path": "/require",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"repository": "https://github.com/stretchr/testify",
+			"vcs": "git",
+			"revision": "8019298d9fa5a04fc2ad10ae03349df3483096a6",
+			"branch": "master",
+			"path": "vendor/github.com/davecgh/go-spew/spew",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"repository": "https://github.com/stretchr/testify",
+			"vcs": "git",
+			"revision": "8019298d9fa5a04fc2ad10ae03349df3483096a6",
+			"branch": "master",
+			"path": "vendor/github.com/pmezard/go-difflib/difflib",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/crypto/ssh/terminal",
+			"repository": "https://go.googlesource.com/crypto",
+			"vcs": "git",
+			"revision": "eb0de9b17e854e9b1ccd9963efafc79862359959",
+			"branch": "master",
+			"path": "/ssh/terminal",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/sys/unix",
+			"repository": "https://go.googlesource.com/sys",
+			"vcs": "git",
+			"revision": "4ed8d59d0b35e1e29334a206d1b3f38b1e5dfb31",
+			"branch": "master",
+			"path": "/unix",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/sys/windows",
+			"repository": "https://go.googlesource.com/sys",
+			"vcs": "git",
+			"revision": "4ed8d59d0b35e1e29334a206d1b3f38b1e5dfb31",
+			"branch": "master",
+			"path": "windows",
+			"notests": true
+		}
+	]
+}

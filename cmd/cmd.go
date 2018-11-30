@@ -9,7 +9,9 @@ import (
 )
 
 var BinVersion string
+var GoVersion string
 
+// Starts the processing of CLI commands and flags.
 func Run() {
 	flag.Usage = func() {
 		fmt.Printf("Usage of pac-mule:\n")
@@ -34,6 +36,7 @@ func Run() {
 	case "version":
 		fmt.Printf("Made with love.\n")
 		fmt.Printf("Version: %s\n", BinVersion)
+		fmt.Printf("Go Version: %s\n", GoVersion)
 		fmt.Printf("License: GPLv2\n")
 		os.Exit(0)
 	default:
