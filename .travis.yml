@@ -6,7 +6,6 @@ env:
   global:
     - PROJECT=pac-mule
 
-# Language Options
 language: go
 
 go:
